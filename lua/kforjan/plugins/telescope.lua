@@ -1,5 +1,6 @@
 return {
   'nvim-telescope/telescope.nvim',
+  event = 'VimEnter',
   branch = '0.1.x',
   dependencies = {
     'nvim-lua/plenary.nvim',
@@ -10,8 +11,9 @@ return {
         return vim.fn.executable 'make' == 1
       end,
     },
-    'nvim-tree/nvim-web-devicons',
-    enabled = vim.g.have_nerd_font,
+
+    { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
+    { 'nvim-telescope/telescope-ui-select.nvim' },
     'folke/todo-comments.nvim',
   },
   config = function()
@@ -40,9 +42,15 @@ return {
           },
         },
       },
+      extensions = {
+        ['ui-select'] = {
+          require('telescope.themes').get_dropdown(),
+        },
+      },
     }
 
-    telescope.load_extension 'fzf'
+    pcall(require('telescope').load_extension, 'fzf')
+    pcall(require('telescope').load_extension, 'ui-select')
 
     local builtin = require 'telescope.builtin'
     local keymap = vim.keymap -- for conciseness
@@ -60,5 +68,24 @@ return {
     keymap.set('n', '<leader>fb', builtin.buffers, { desc = '[F]ind [B]uffers' })
     keymap.set('n', '<leader>fm', builtin.git_status, { desc = '[F]ind [M]odified files' })
     keymap.set('n', '<C-f>', builtin.git_files)
+
+    vim.keymap.set('n', '<leader>/', function()
+      -- You can pass additional configuration to Telescope to change the theme, layout, etc.
+      builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
+        winblend = 10,
+        previewer = false,
+      })
+    end, { desc = '[/] Fuzzily search in current buffer' })
+
+    vim.keymap.set('n', '<leader>s/', function()
+      builtin.live_grep {
+        grep_open_files = true,
+        prompt_title = 'Live Grep in Open Files',
+      }
+    end, { desc = '[S]earch [/] in Open Files' })
+
+    vim.keymap.set('n', '<leader>sn', function()
+      builtin.find_files { cwd = vim.fn.stdpath 'config' }
+    end, { desc = '[F]ind in [N]eovim files' })
   end,
 }
