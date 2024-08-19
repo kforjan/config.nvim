@@ -50,7 +50,7 @@ return {
 
         -- Commit with a message
         vim.keymap.set('n', '<leader>gcm', function()
-          vim.cmd ':Git commit -m ""'
+          vim.cmd ':Git commit'
           vim.cmd 'normal! i' -- Place cursor inside quotes for the message
         end, { desc = 'Git [C]o[m]mit', buffer = bufnr, remap = false })
 
