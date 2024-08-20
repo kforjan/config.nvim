@@ -57,7 +57,7 @@ return {
     )
 
     function OpenFlutterBuildRunner()
-      local cmd = { 'flutter', 'pub', 'run', 'build_runner', 'build', '--delete-conflicting-outputs' }
+      local cmd = { 'dart', 'run', 'build_runner', 'build', '--delete-conflicting-outputs' }
       local buf = vim.api.nvim_create_buf(false, true) -- Create a new empty buffer
 
       -- Open a split window to show the terminal output
@@ -72,7 +72,7 @@ return {
       })
 
       -- Optional: You can set the buffer to not be modifiable
-      vim.api.nvim_buf_set_option(buf, 'modifiable', false)
+      vim.bo[buf].modifiable = false
     end
   end,
 }

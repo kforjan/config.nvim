@@ -18,56 +18,33 @@ return {
         local bufnr = vim.api.nvim_get_current_buf()
         local opts = { buffer = bufnr, remap = false }
 
-        -- Push (capital P)
-        vim.keymap.set('n', '<leader>gP', function()
+        local function map(lhs, rhs, desc)
+          vim.keymap.set('n', lhs, rhs, vim.tbl_extend('force', opts, { desc = desc }))
+        end
+
+        map('<leader>gP', function()
           vim.cmd.Git 'push'
-        end, { desc = 'Git [P]ush', buffer = bufnr, remap = false })
+        end, 'Git [P]ush')
 
-        -- Pull with merge
-        vim.keymap.set('n', '<leader>gpm', function()
+        map('<leader>gpm', function()
           vim.cmd.Git 'pull'
-        end, { desc = 'Git [P]ull ([M]erge)', buffer = bufnr, remap = false })
+        end, 'Git [P]ull ([M]erge)')
 
-        -- Pull with rebase
-        vim.keymap.set('n', '<leader>gpr', function()
+        map('<leader>gpr', function()
           vim.cmd.Git { 'pull', '--rebase' }
-        end, { desc = 'Git [P]ull ([R]ebase)', buffer = bufnr, remap = false })
+        end, 'Git [P]ull ([R]ebase)')
 
-        -- Merge (specify branch)
-        vim.keymap.set('n', '<leader>gm', function()
-          vim.cmd ':Git merge '
-        end, { desc = 'Git [M]erge (specify branch)', buffer = bufnr, remap = false })
-
-        -- Rebase (specify branch)
-        vim.keymap.set('n', '<leader>gr', function()
-          vim.cmd ':Git rebase '
-        end, { desc = 'Git [R]ebase (specify branch)', buffer = bufnr, remap = false })
-
-        -- Add all changes
-        vim.keymap.set('n', '<leader>ga', function()
+        map('<leader>ga', function()
           vim.cmd.Git 'add .'
-        end, { desc = 'Git [A]dd All', buffer = bufnr, remap = false })
+        end, 'Git [A]dd All')
 
-        -- Commit with a message
-        vim.keymap.set('n', '<leader>gcm', function()
-          vim.cmd ':Git commit'
-          vim.cmd 'normal! i' -- Place cursor inside quotes for the message
-        end, { desc = 'Git [C]o[m]mit', buffer = bufnr, remap = false })
+        map('<leader>gc', function()
+          vim.cmd.Git 'commit'
+        end, 'Git [C]ommit')
 
-        -- Diff
-        vim.keymap.set('n', '<leader>gd', function()
+        map('<leader>gd', function()
           vim.cmd.Git 'diff'
-        end, { desc = 'Git [D]iff', buffer = bufnr, remap = false })
-
-        -- Checkout branch
-        vim.keymap.set('n', '<leader>gco', function()
-          vim.cmd ':Git checkout '
-        end, { desc = 'Git [C]heck[o]ut Branch', buffer = bufnr, remap = false })
-
-        -- Checkout new branch
-        vim.keymap.set('n', '<leader>gcb', function()
-          vim.cmd ':Git checkout -b '
-        end, { desc = 'Git [C]heckout New [B]ranch', buffer = bufnr, remap = false })
+        end, 'Git [D]iff')
       end,
     })
 
