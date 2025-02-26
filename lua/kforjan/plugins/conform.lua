@@ -16,13 +16,24 @@ return { -- Autoformat
     format_on_save = function(bufnr)
       local disable_filetypes = { c = true, cpp = true }
       return {
-        timeout_ms = 500,
+        timeout_ms = 2000,
         lsp_fallback = not disable_filetypes[vim.bo[bufnr].filetype],
       }
     end,
     formatters_by_ft = {
       lua = { 'stylua' },
-      javascript = { { 'prettierd', 'prettier' } },
+      javascript = { 'prettierd', 'prettier' },
+      typescript = { 'prettierd', 'prettier' },
+      javascriptreact = { 'prettierd', 'prettier' },
+      typescriptreact = { 'prettierd', 'prettier' },
+      svelte = { 'prettierd', 'prettier' },
+      css = { 'prettierd', 'prettier' },
+      html = { 'prettierd', 'prettier' },
+      json = { 'prettierd', 'prettier' },
+      yaml = { 'prettierd', 'prettier' },
+      markdown = { 'prettierd', 'prettier' },
+      graphql = { 'prettierd', 'prettier' },
+      python = { 'isort', 'black' },
     },
   },
 }

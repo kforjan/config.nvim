@@ -15,29 +15,42 @@ return {
       },
     }
 
-    vim.api.nvim_set_keymap(
-      'n',
-      '<leader>Fs<leader>',
-      ":lua vim.cmd('FlutterRun --' .. vim.fn.input('FlutterRun '))<cr>",
-      { noremap = true, silent = true, desc = '[F]lutter [s]tart with custom input' }
-    )
+    vim.api.nvim_set_keymap('n', '<leader>Fs<leader>', '<cmd>FlutterRun <cr>', { noremap = true, silent = true, desc = '[F]lutter [s]tart with custom input' })
     vim.api.nvim_set_keymap(
       'n',
       '<leader>Fsd',
-      '<cmd>FlutterRun --flavor=development<cr>',
-      { noremap = true, silent = true, desc = '[F]lutter [s]tart with [d]evelopment flavor' }
+      '<cmd>FlutterRun --flavor=dev<cr>',
+      { noremap = true, silent = true, desc = '[F]lutter [s]tart with [d]ev flavor' }
     )
     vim.api.nvim_set_keymap(
       'n',
       '<leader>Fss',
-      '<cmd>FlutterRun --flavor=staging<cr>',
-      { noremap = true, silent = true, desc = '[F]lutter [s]tart with [s]taging flavor' }
+      '<cmd>FlutterRun --flavor=stage<cr>',
+      { noremap = true, silent = true, desc = '[F]lutter [s]tart with [s]tage flavor' }
     )
     vim.api.nvim_set_keymap(
       'n',
       '<leader>Fsp',
+      '<cmd>FlutterRun --flavor=prod<cr>',
+      { noremap = true, silent = true, desc = '[F]lutter [s]tart with [p]rodflavor' }
+    )
+    vim.api.nvim_set_keymap(
+      'n',
+      '<leader>FsD',
+      '<cmd>FlutterRun --flavor=development<cr>',
+      { noremap = true, silent = true, desc = '[F]lutter [s]tart with [D]evelopment flavor' }
+    )
+    vim.api.nvim_set_keymap(
+      'n',
+      '<leader>FsS',
+      '<cmd>FlutterRun --flavor=staging<cr>',
+      { noremap = true, silent = true, desc = '[F]lutter [s]tart with [S]taging flavor' }
+    )
+    vim.api.nvim_set_keymap(
+      'n',
+      '<leader>FsP',
       '<cmd>FlutterRun --flavor=production<cr>',
-      { noremap = true, silent = true, desc = '[F]lutter [s]tart with [p]roduction flavor' }
+      { noremap = true, silent = true, desc = '[F]lutter [s]tart with [P]roduction flavor' }
     )
     vim.api.nvim_set_keymap('n', '<leader>Fq', '<cmd>FlutterQuit<cr>', { noremap = true, silent = true, desc = '[f]lutter [q]uit' })
     vim.api.nvim_set_keymap('n', '<leader>Fd', '<cmd>FlutterDevices<cr>', { noremap = true, silent = true, desc = '[f]lutter [d]evices' })
