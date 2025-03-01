@@ -1,4 +1,4 @@
-local data = assert(vim.fn.stdpath "data") --[[@as string]]
+local data = assert(vim.fn.stdpath 'data') --[[@as string]]
 return {
   'nvim-telescope/telescope.nvim',
   dependencies = {
@@ -8,20 +8,28 @@ return {
       'nvim-tree/nvim-web-devicons',
       enabled = vim.g.have_nerd_font,
     },
+    {
+      'nvim-telescope/telescope-frecency.nvim',
+      version = '*',
+    },
     'nvim-telescope/telescope-ui-select.nvim',
   },
   config = function()
     require 'telescope'.setup {
       defaults = {
         path_display = { 'smart' },
-        file_ignore_patterns = {
-          'node_modules',
+        file_ignore_patterns = { 'node_modules', '.git', '.venv' },
+      },
+      pickers = {
+        find_files = {
+          hidden = true,
         },
+        current_buffer_fuzzy_find = { sorting_strategy = 'ascending' },
       },
       extensions = {
         fzf = {},
         history = {
-          path = vim.fs.joinpath(data, "telescope_history.sqlite3"),
+          path = vim.fs.joinpath(data, 'telescope_history.sqlite3'),
           limit = 100,
         },
         ['ui-select'] = {
@@ -31,6 +39,7 @@ return {
     }
     pcall(require('telescope').load_extension, 'fzf')
     pcall(require('telescope').load_extension, 'ui-select')
+    pcall(require('telescope').load_extension, 'frecency')
 
     local builtin = require 'telescope.builtin'
 

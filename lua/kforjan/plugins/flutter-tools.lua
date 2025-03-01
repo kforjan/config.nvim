@@ -1,19 +1,20 @@
 return {
   'akinsho/flutter-tools.nvim',
-  lazy = true,
-  ft = "dart",
+  lazy = false,
+  ft = 'dart',
   dependencies = {
     'nvim-lua/plenary.nvim',
+    'stevearc/dressing.nvim',
+    'kforjan/flutter-bloc.nvim',
   },
   config = function()
     require('flutter-tools').setup {
       fvm = true,
-      lsp = {
-        color = { enabled = true },
-        on_attach = function(client)
-          client.server_capabilities.semanticTokensProvider = false -- Disable LSP-provided highlights
-        end,
-      },
+      lsp = { enabled = false },
+    }
+
+    require('flutter-bloc').setup {
+      freezed = true,
     }
 
     local function flutter_run_with_flavor()
@@ -69,6 +70,20 @@ return {
       '<leader>Fx',
       '<cmd>!dart format . && dart fix --apply<cr>',
       { noremap = true, silent = true, desc = '[F]i[x] Dart code' }
+    )
+
+    -- Flutter bloc
+    vim.keymap.set(
+      'n',
+      '<Leader>Fbb',
+      "<cmd>lua require('flutter-bloc').create_bloc()<cr>",
+      { desc = 'Create [B]loc ' }
+    )
+    vim.keymap.set(
+      'n',
+      '<Leader>Fbc',
+      "<cmd>lua require('flutter-bloc').create_cubit()<cr>",
+      { desc = 'Create [C]ubit' }
     )
   end,
 }
