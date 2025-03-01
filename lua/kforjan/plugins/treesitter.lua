@@ -1,6 +1,7 @@
 return {
   'nvim-treesitter/nvim-treesitter',
   build = ':TSUpdate',
+  lazy = false,
   opts = {
     ensure_installed = {
       'bash',
@@ -13,18 +14,18 @@ return {
       'vimdoc',
       'dart',
       'go',
+      'ruby',
+      'typescript',
     },
+    sync_install = false,
     auto_install = true,
     highlight = {
       enable = true,
-      additional_vim_regex_highlighting = { 'markdown' },
     },
+    additional_vim_regex_highlighting = true,
     indent = { enable = true },
   },
   config = function(_, opts)
     require('nvim-treesitter.configs').setup(opts)
-    local hl = vim.api.nvim_get_hl(0, { name = 'Normal' })
-    local color = string.format('#%06x', hl.fg or 0xFFFFFF)
-    vim.api.nvim_set_hl(0, '@property.dart', { fg = color })
   end,
 }

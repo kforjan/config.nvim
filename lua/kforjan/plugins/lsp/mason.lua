@@ -3,19 +3,68 @@ return {
   dependencies = {
     'williamboman/mason-lspconfig.nvim',
     'WhoIsSethDaniel/mason-tool-installer.nvim',
+    'b0o/SchemaStore.nvim'
   },
   config = function()
-    local capabilities = vim.lsp.protocol.make_client_capabilities()
-    capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
+    local capabilities = require('blink.cmp').get_lsp_capabilities()
 
     local servers = {
-      gopls = {},
-      ruby_lsp = {},
-      lua_ls = {
+      bashls = {},
+      gopls = {
+        manual_install = true,
         settings = {
-          Lua = {
-            completion = {
-              callSnippet = 'Replace',
+          gopls = {
+            hints = {
+              assignVariableTypes = true,
+              compositeLiteralFields = true,
+              compositeLiteralTypes = true,
+              constantValues = true,
+              functionTypeParameters = true,
+              parameterNames = true,
+              rangeVariableTypes = true,
+            },
+          },
+        },
+      },
+      lua_ls = {
+        server_capabilities = {
+          semanticTokensProvider = vim.NIL,
+        },
+      },
+      rust_analyzer = {},
+      svelte = {},
+      templ = {},
+      ruby_lsp = {
+        root_dir = require("lspconfig").util.root_pattern "Gemfile",
+        single_file = true,
+        init_options = {
+          formatter = 'auto',
+        },
+      },
+      ts_ls = {
+        root_dir = require("lspconfig").util.root_pattern "package.json",
+        single_file = false,
+        server_capabilities = {
+          documentFormattingProvider = false,
+        },
+      },
+      jsonls = {
+        server_capabilities = {
+          documentFormattingProvider = false,
+        },
+        settings = {
+          json = {
+            schemas = require('schemastore').json.schemas(),
+            validate = { enable = true },
+          },
+        },
+      },
+      yamlls = {
+        settings = {
+          yaml = {
+            schemaStore = {
+              enable = false,
+              url = '',
             },
           },
         },
@@ -32,7 +81,12 @@ return {
       handlers = {
         function(server_name)
           local server = servers[server_name] or {}
-          server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
+          server.capabilities = vim.tbl_deep_extend(
+            'force',
+            {},
+            capabilities,
+            server.capabilities or {}
+          )
           require('lspconfig')[server_name].setup(server)
         end,
         ['lua_ls'] = function()
@@ -42,10 +96,29 @@ return {
             settings = {
               Lua = {
                 diagnostics = {
-                  globals = { 'bit', 'vim', 'it', 'describe', 'before_each', 'after_each' },
+                  globals = {
+                    'bit',
+                    'vim',
+                    'it',
+                    'describe',
+                    'before_each',
+                    'after_each',
+                  },
                 },
               },
             },
+          }
+        end,
+        ['ruby_lsp'] = function()
+          local lspconfig = require 'lspconfig'
+          lspconfig.ruby_lsp.setup {
+            cmd = { 'ruby-lsp' },
+            filetypes = { 'ruby', 'eruby' },
+            root_dir = lspconfig.util.root_pattern('Gemfile', '.git'),
+            init_options = {
+              formatter = 'auto',
+            },
+            single_file_support = true,
           }
         end,
       },

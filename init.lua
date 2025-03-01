@@ -1,2 +1,2 @@
-require("kforjan.core")
-require("kforjan.lazy")
+require 'kforjan.core'
+require 'kforjan.lazy'

@@ -8,5 +8,11 @@ return {
       topdelete = { text = '‾' },
       changedelete = { text = '~' },
     },
+    current_line_blame_formatter = ' <author>: <summary> • <author_time>',
+    on_attach = function()
+      local gitsigns = require('gitsigns')
+      vim.keymap.set('n', '<leader>gb', gitsigns.toggle_current_line_blame)
+      vim.keymap.set('n', '<leader>gd', gitsigns.toggle_deleted)
+    end
   },
 }
