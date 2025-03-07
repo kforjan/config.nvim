@@ -42,51 +42,32 @@ return {
     pcall(require('telescope').load_extension, 'frecency')
 
     local builtin = require 'telescope.builtin'
+    local set = vim.keymap.set
 
-    vim.keymap.set(
-      'n',
-      '<leader>fh',
-      builtin.help_tags,
-      { desc = '[F]ind [H]elp' }
-    )
-    vim.keymap.set(
-      'n',
-      '<leader>ff',
-      builtin.find_files,
-      { desc = '[F]ind [F]iles' }
-    )
-    vim.keymap.set(
+    set('n', '<leader>fh', builtin.help_tags, { desc = '[F]ind [H]elp' })
+    set('n', '<leader>ff', builtin.find_files, { desc = '[F]ind [F]iles' })
+    set(
       'n',
       '<leader>fc',
       builtin.grep_string,
       { desc = '[F]ind [C]ursor string in cwd' }
     )
-    vim.keymap.set(
-      'n',
-      '<leader>fg',
-      builtin.live_grep,
-      { desc = '[F]ind by [G]rep' }
-    )
-    vim.keymap.set(
+    set('n', '<leader>fg', builtin.live_grep, { desc = '[F]ind by [G]rep' })
+    set(
       'n',
       '<leader>fd',
       builtin.diagnostics,
       { desc = '[F]ind [D]iagnostics' }
     )
-    vim.keymap.set(
-      'n',
-      '<leader>fb',
-      builtin.buffers,
-      { desc = '[F]ind [B]uffers' }
-    )
-    vim.keymap.set(
+    set('n', '<leader>fb', builtin.buffers, { desc = '[F]ind [B]uffers' })
+    set(
       'n',
       '<leader>fm',
       builtin.git_status,
       { desc = '[F]ind [M]odified files' }
     )
-
-    vim.keymap.set('n', '<leader>/', function()
+    set('n', '<leader>ft', '<cmd>TodoTelescope<cr>', { desc = '[F]ind [T]odo' })
+    set('n', '<leader>/', function()
       builtin.current_buffer_fuzzy_find(
         require('telescope.themes').get_dropdown {
           winblend = 10,
@@ -94,8 +75,7 @@ return {
         }
       )
     end, { desc = '[/] Fuzzily search in current buffer' })
-
-    vim.keymap.set('n', '<leader>fn', function()
+    set('n', '<leader>fn', function()
       builtin.find_files { cwd = vim.fn.stdpath 'config' }
     end, { desc = '[F]ind in [N]eovim files' })
   end,

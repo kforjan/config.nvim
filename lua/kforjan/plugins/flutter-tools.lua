@@ -25,65 +25,60 @@ return {
       end)
     end
 
-    vim.keymap.set('n', '<leader>Fs<leader>', '<cmd>FlutterRun<cr>', {
+    local set = vim.keymap.set
+
+    set('n', '<leader>Fs<leader>', '<cmd>FlutterRun<cr>', {
       noremap = true,
       silent = true,
       desc = '[F]lutter [s]tart',
     })
-    vim.keymap.set('n', '<leader>Ff', flutter_run_with_flavor, {
+    set('n', '<leader>Ff', flutter_run_with_flavor, {
       noremap = true,
       silent = true,
       desc = '[F]lutter start with [f]lavor (dynamic input)',
     })
-    vim.api.nvim_set_keymap(
-      'n',
-      '<leader>Fq',
-      '<cmd>FlutterQuit<cr>',
-      { noremap = true, silent = true, desc = '[f]lutter [q]uit' }
-    )
-    vim.api.nvim_set_keymap(
-      'n',
-      '<leader>Fc',
-      '<cmd>FlutterLogClear<cr>',
-      { noremap = true, silent = true, desc = '[f]lutter log [c]lear' }
-    )
-    vim.api.nvim_set_keymap(
-      'n',
-      '<leader>FR',
-      '<cmd>FlutterRestart<cr>',
-      { noremap = true, silent = true, desc = '[f]lutter hot [r]estart' }
-    )
-    vim.api.nvim_set_keymap(
-      'n',
-      '<leader>Fr',
-      '<cmd>FlutterReload<cr>',
-      { noremap = true, silent = true, desc = '[f]lutter hot [r]eload' }
-    )
-    vim.api.nvim_set_keymap(
-      'n',
-      '<leader>Flr',
-      '<cmd>FlutterLspRestart<cr>',
-      { noremap = true, silent = true, desc = '[f]lutter [l]sp [r]estart' }
-    )
-    vim.api.nvim_set_keymap(
-      'n',
-      '<leader>Fx',
-      '<cmd>!dart format . && dart fix --apply<cr>',
-      { noremap = true, silent = true, desc = '[F]i[x] Dart code' }
-    )
+    set('n', '<leader>Fq', '<cmd>FlutterQuit<cr>', {
+      noremap = true,
+      silent = true,
+      desc = '[f]lutter [q]uit',
+    })
+    set('n', '<leader>Fc', '<cmd>FlutterLogClear<cr>', {
+      noremap = true,
+      silent = true,
+      desc = '[f]lutter log [c]lear',
+    })
+    set('n', '<leader>FR', '<cmd>FlutterRestart<cr>', {
+      noremap = true,
+      silent = true,
+      desc = '[f]lutter hot [r]estart',
+    })
+    set('n', '<leader>Fr', '<cmd>FlutterReload<cr>', {
+      noremap = true,
+      silent = true,
+      desc = '[f]lutter hot [r]eload',
+    })
+    set('n', '<leader>Flr', '<cmd>FlutterLspRestart<cr>', {
+      noremap = true,
+      silent = true,
+      desc = '[f]lutter [l]sp [r]estart',
+    })
 
     -- Flutter bloc
-    vim.keymap.set(
+    set(
       'n',
       '<Leader>Fbb',
       "<cmd>lua require('flutter-bloc').create_bloc()<cr>",
-      { desc = 'Create [B]loc ' }
+      {
+        desc = 'Create [B]loc ',
+      }
     )
-    vim.keymap.set(
+    set(
       'n',
       '<Leader>Fbc',
       "<cmd>lua require('flutter-bloc').create_cubit()<cr>",
-      { desc = 'Create [C]ubit' }
+      {
+        desc = 'Create [C]ubit',
+      }
     )
   end,
 }

@@ -1,41 +1,43 @@
-vim.opt.number = true
-vim.opt.relativenumber = true
-vim.opt.smartindent = true
-vim.opt.wrap = false
-vim.opt.hlsearch = false
-vim.opt.incsearch = true
-vim.opt.shiftwidth = 4
-vim.opt.expandtab = true
-vim.opt.termguicolors = true
+local opt = vim.opt
 
-vim.opt.scrolloff = 8
-vim.opt.signcolumn = 'yes'
-vim.opt.isfname:append '@-@'
+opt.number = true
+opt.relativenumber = true
+opt.smartindent = true
+opt.wrap = false
+opt.hlsearch = false
+opt.incsearch = true
+opt.shiftwidth = 4
+opt.expandtab = true
+opt.termguicolors = true
 
-vim.opt.updatetime = 50
+opt.scrolloff = 8
+opt.signcolumn = 'yes'
+opt.isfname:append '@-@'
 
-vim.opt.colorcolumn = '80'
+opt.updatetime = 50
+
+opt.colorcolumn = '80'
 
 vim.g.have_nerd_font = true
-vim.opt.showmode = false
+opt.showmode = false
 
-vim.opt.swapfile = false
-vim.opt.backup = false
-vim.opt.undodir = os.getenv 'HOME' .. '/.vim/undodir'
-vim.opt.undofile = true
+opt.swapfile = false
+opt.backup = false
+opt.undodir = os.getenv 'HOME' .. '/.undodir'
+opt.undofile = true
 
-vim.opt.ignorecase = true
-vim.opt.smartcase = true
+opt.ignorecase = true
+opt.smartcase = true
 
-vim.opt.splitright = true
-vim.opt.splitbelow = true
+opt.splitright = true
+opt.splitbelow = true
 
-vim.opt.title = true
-vim.opt.titlelen = 0
-vim.opt.titlestring = 'nvim %{expand("%:t")}'
+opt.title = true
+opt.titlelen = 0
+opt.titlestring = 'n%{expand("%:t")}'
 
-vim.opt.cursorline = true
-vim.opt.inccommand = 'split'
+opt.cursorline = true
+opt.inccommand = 'split'
 
-vim.opt.list = true
-vim.opt.listchars:append 'trail:·'
+opt.list = true
+opt.listchars:append 'trail:·'

@@ -4,24 +4,25 @@ return {
   dependencies = { 'nvim-lua/plenary.nvim' },
   config = function()
     local harpoon = require 'harpoon'
+    local set = vim.keymap.set
 
-    vim.keymap.set('n', '<leader>a', function()
+    set('n', '<leader>a', function()
       harpoon:list():add()
     end, { desc = '[A]dd current file to Harpoon' })
-    vim.keymap.set('n', '<C-e>', function()
+    set('n', '<C-e>', function()
       harpoon.ui:toggle_quick_menu(harpoon:list())
     end)
 
-    vim.keymap.set('n', '<leader>hh', function()
+    set('n', '<leader>hh', function()
       harpoon:list():select(1)
     end)
-    vim.keymap.set('n', '<leader>hj', function()
+    set('n', '<leader>hj', function()
       harpoon:list():select(2)
     end)
-    vim.keymap.set('n', '<leader>hk', function()
+    set('n', '<leader>hk', function()
       harpoon:list():select(3)
     end)
-    vim.keymap.set('n', '<leader>hl', function()
+    set('n', '<leader>hl', function()
       harpoon:list():select(4)
     end)
   end,
