@@ -6,7 +6,6 @@ return {
     { 'folke/lazydev.nvim', ft = 'lua' },
     'williamboman/mason.nvim',
     'williamboman/mason-lspconfig.nvim',
-    'stevearc/conform.nvim',
     'WhoIsSethDaniel/mason-tool-installer.nvim',
     'b0o/SchemaStore.nvim',
   },
@@ -158,33 +157,6 @@ return {
         end
       end,
     })
-
-    -- autoformat
-    local conform = require('conform')
-    conform.setup {
-      formatters_by_ft = {
-        lua = { 'stylua' },
-        javascript = { 'prettierd', 'prettier' },
-        typescript = { 'prettierd', 'prettier' },
-        svelte = { 'prettierd', 'prettier' },
-        css = { 'prettierd', 'prettier' },
-        html = { 'prettierd', 'prettier' },
-        json = { 'prettierd', 'prettier' },
-      },
-    }
-
-    vim.api.nvim_create_autocmd('BufWritePre', {
-      group = vim.api.nvim_create_augroup('custom-conform', { clear = true }),
-      callback = function(args)
-        require('conform').format {
-          bufnr = args.buf,
-          lsp_fallback = true,
-          quiet = true,
-        }
-      end,
-    })
-
-    -- autoformat
 
     vim.diagnostic.config { virtual_text = true, virtual_lines = true }
   end,
