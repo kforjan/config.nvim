@@ -18,7 +18,7 @@ return {
     require 'telescope'.setup {
       defaults = {
         path_display = { 'smart' },
-        file_ignore_patterns = { 'node_modules', '.git', '.venv' },
+        file_ignore_patterns = { 'node_modules', '%.git$', '%.git%/', '%.venv' },
       },
       pickers = {
         find_files = {
