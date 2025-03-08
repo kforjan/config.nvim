@@ -1,7 +1,8 @@
 local set = vim.keymap.set
+local g = vim.g
 
-vim.g.mapleader = ' '
-vim.g.maplocalleader = ','
+g.mapleader = ' '
+g.maplocalleader = ','
 
 -- visual mode modifications
 set('n', 'vv', 'v$')
