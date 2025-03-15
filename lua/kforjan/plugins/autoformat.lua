@@ -11,6 +11,7 @@ return {
         css = { 'prettierd', 'prettier', stop_after_first = true },
         html = { 'prettierd', 'prettier', stop_after_first = true },
         json = { 'jq' },
+        eruby = { 'erb_format' },
       },
 
       vim.api.nvim_create_autocmd('BufWritePre', {

@@ -3,18 +3,13 @@ return {
   event = { 'BufReadPre', 'BufNewFile' },
   dependencies = {
     { 'j-hui/fidget.nvim', opts = {} },
-    { 'folke/lazydev.nvim', ft = 'lua' },
-    'williamboman/mason.nvim',
+    { 'williamboman/mason.nvim', opts = {} },
     'williamboman/mason-lspconfig.nvim',
     'WhoIsSethDaniel/mason-tool-installer.nvim',
     'b0o/SchemaStore.nvim',
+    'saghen/blink.cmp',
   },
-
   config = function()
-    local capabilities = require('blink.cmp').get_lsp_capabilities()
-    local lspconfig = require 'lspconfig'
-    require('lazydev').setup()
-
     local servers = {
       bashls = {},
       gopls = {
@@ -42,14 +37,14 @@ return {
       svelte = {},
       templ = {},
       solargraph = {},
-      -- ruby_lsp = {
-      --   root_dir = require('lspconfig').util.root_pattern 'Gemfile',
-      --   single_file = true,
-      --   init_options = {
-      --     formatter = 'auto',
-      --     experimentalFeatures = true,
-      --   },
-      -- },
+      ruby_lsp = {
+        root_dir = require('lspconfig').util.root_pattern 'Gemfile',
+        single_file = true,
+        init_options = {
+          formatter = 'auto',
+          experimentalFeatures = true,
+        },
+      },
       ts_ls = {
         root_dir = require('lspconfig').util.root_pattern 'package.json',
         single_file = false,
@@ -80,41 +75,56 @@ return {
       },
     }
 
-    local servers_to_install = vim.tbl_filter(function(key)
-      local t = servers[key]
-      if type(t) == 'table' then
-        return not t.manual_install
-      else
-        return t
-      end
-    end, vim.tbl_keys(servers))
-
-    require('mason').setup()
-    require('mason-tool-installer').setup {
-      ensure_installed = servers_to_install,
-    }
-
-    for name, config in pairs(servers) do
-      if config == true then
-        config = {}
-      end
-      config = vim.tbl_deep_extend('force', {}, {
-        capabilities = capabilities,
-      }, config)
-
-      lspconfig[name].setup(config)
-    end
+    local lspconfig = require 'lspconfig'
 
     vim.api.nvim_create_autocmd('LspAttach', {
+      group = vim.api.nvim_create_augroup('lsp-attach', { clear = true }),
       callback = function(args)
         local client = assert(
           vim.lsp.get_client_by_id(args.data.client_id),
           'must have valid client'
         )
 
-        local settings = servers[client.name]
-        if type(settings) ~= 'table' then
-          settings = {}
+        local function client_supports_method(client, method, bufnr)
+          if vim.fn.has 'nvim-0.11' == 1 then
+            return client:supports_method(method, bufnr)
+          else
+            return client.supports_method(method, { bufnr = bufnr })
+          end
+        end
+
+        if
+          client
+          and client_supports_method(
+            client,
+            vim.lsp.protocol.Methods.textDocument_documentHighlight,
+            args.buf
+          )
+        then
+          local highlight_augroup =
+            vim.api.nvim_create_augroup('lsp-highlight', { clear = false })
+          vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
+            buffer = args.buf,
+            group = highlight_augroup,
+            callback = vim.lsp.buf.document_highlight,
+          })
+
+          vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
+            buffer = args.buf,
+            group = highlight_augroup,
+            callback = vim.lsp.buf.clear_references,
+          })
+
+          vim.api.nvim_create_autocmd('LspDetach', {
+            group = vim.api.nvim_create_augroup('lsp-detach', { clear = true }),
+            callback = function(event2)
+              vim.lsp.buf.clear_references()
+              vim.api.nvim_clear_autocmds {
+                group = 'lsp-highlight',
+                buffer = event2.buf,
+              }
+            end,
+          })
         end
 
         local builtin = require 'telescope.builtin'
@@ -145,19 +155,43 @@ return {
         map('[d', vim.diagnostic.goto_prev, 'Previous [D]iagnostic')
         map(']d', vim.diagnostic.goto_next, 'Next [D]iagnostic')
 
+        local settings = servers[client.name] or {}
         if settings.server_capabilities then
           for k, v in pairs(settings.server_capabilities) do
-            if v == vim.NIL then
-              ---@diagnostic disable-next-line: cast-local-type
-              v = nil
-            end
-
-            client.server_capabilities[k] = v
+            client.server_capabilities[k] = (v == vim.NIL) and nil or v
           end
         end
       end,
     })
 
-    vim.diagnostic.config { virtual_text = true, virtual_lines = true }
+    local servers_to_install = vim.tbl_filter(function(key)
+      local t = servers[key]
+      return type(t) == 'table' and not t.manual_install or t
+    end, vim.tbl_keys(servers))
+
+    require('mason-tool-installer').setup {
+      ensure_installed = servers_to_install,
+    }
+
+    local mason_lspconfig = require('mason-lspconfig')
+    mason_lspconfig.setup({
+      ensure_installed = {},
+      automatic_installation = false,
+    })
+
+    for name, config in pairs(servers) do
+      if config == true then
+        config = {}
+      end
+      config.capabilities =
+        require('blink.cmp').get_lsp_capabilities(config.capabilities)
+      lspconfig[name].setup(config)
+    end
+
+    vim.diagnostic.config {
+      virtual_text = true,
+      virtual_lines = true,
+      severity_sort = true,
+    }
   end,
 }

@@ -1,5 +1,9 @@
 return {
   'nvim-treesitter/nvim-treesitter',
+  dependencies = {
+    'RRethy/nvim-treesitter-endwise',
+    event = 'InsertEnter',
+  },
   build = ':TSUpdate',
   lazy = false,
   opts = {
@@ -24,6 +28,7 @@ return {
     },
     additional_vim_regex_highlighting = true,
     indent = { enable = true },
+    endwise = { enable = true },
   },
   config = function(_, opts)
     require('nvim-treesitter.configs').setup(opts)
