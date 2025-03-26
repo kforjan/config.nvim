@@ -36,15 +36,17 @@ return {
       rust_analyzer = {},
       svelte = {},
       templ = {},
-      solargraph = {},
-      ruby_lsp = {
-        root_dir = require('lspconfig').util.root_pattern 'Gemfile',
-        single_file = true,
-        init_options = {
-          formatter = 'auto',
-          experimentalFeatures = true,
-        },
+      solargraph = {
+        cmd = { 'bundle', 'exec', 'solargraph', 'stdio' },
       },
+      -- ruby_lsp = {
+      --   root_dir = require('lspconfig').util.root_pattern 'Gemfile',
+      --   single_file = true,
+      --   init_options = {
+      --     formatter = 'auto',
+      --     experimentalFeatures = true,
+      --   },
+      -- },
       ts_ls = {
         root_dir = require('lspconfig').util.root_pattern 'package.json',
         single_file = false,
@@ -86,11 +88,7 @@ return {
         )
 
         local function client_supports_method(client, method, bufnr)
-          if vim.fn.has 'nvim-0.11' == 1 then
-            return client:supports_method(method, bufnr)
-          else
-            return client.supports_method(method, { bufnr = bufnr })
-          end
+          return client:supports_method(method, bufnr)
         end
 
         if

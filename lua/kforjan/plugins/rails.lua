@@ -9,7 +9,7 @@ return {
   {
     'weizheheng/ror.nvim',
     ft = 'ruby',
-    cnfig = function()
+    config = function()
       local set = vim.keymap.set
       set(
         'n',
