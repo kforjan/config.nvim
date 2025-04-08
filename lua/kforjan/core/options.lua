@@ -38,6 +38,3 @@ opt.titlestring = 'n%{expand("%:t")}'
 
 opt.cursorline = true
 opt.inccommand = 'split'
-
-opt.list = true
-opt.listchars:append 'trail:·'

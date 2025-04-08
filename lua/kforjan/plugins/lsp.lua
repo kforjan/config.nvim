@@ -36,17 +36,17 @@ return {
       rust_analyzer = {},
       svelte = {},
       templ = {},
-      solargraph = {
-        cmd = { 'bundle', 'exec', 'solargraph', 'stdio' },
-      },
-      -- ruby_lsp = {
-      --   root_dir = require('lspconfig').util.root_pattern 'Gemfile',
-      --   single_file = true,
-      --   init_options = {
-      --     formatter = 'auto',
-      --     experimentalFeatures = true,
-      --   },
+      -- solargraph = {
+      --   cmd = { 'gem', 'exec', 'solargraph', 'stdio' },
       -- },
+      ruby_lsp = {
+        root_dir = require('lspconfig').util.root_pattern 'Gemfile',
+        single_file = true,
+        init_options = {
+          formatter = 'auto',
+          experimentalFeatures = true,
+        },
+      },
       ts_ls = {
         root_dir = require('lspconfig').util.root_pattern 'package.json',
         single_file = false,
@@ -87,8 +87,8 @@ return {
           'must have valid client'
         )
 
-        local function client_supports_method(client, method, bufnr)
-          return client:supports_method(method, bufnr)
+        local function client_supports_method(lsp_client, method, bufnr)
+          return lsp_client:supports_method(method, bufnr)
         end
 
         if
@@ -125,28 +125,10 @@ return {
           })
         end
 
-        local builtin = require 'telescope.builtin'
-        local map = function(keys, func, desc)
-          vim.keymap.set(
-            'n',
-            keys,
-            func,
-            { buffer = 0, desc = 'LSP: ' .. desc }
-          )
-        end
-
-        map('gd', builtin.lsp_definitions, '[G]oto [D]efinition')
-        map('gR', builtin.lsp_references, '[G]oto [R]eferences')
-        map('gI', builtin.lsp_implementations, '[G]oto [I]mplementation')
-        map('<leader>D', builtin.lsp_type_definitions, 'Type [D]efinition')
-        map('<leader>ds', builtin.lsp_document_symbols, '[D]ocument [S]ymbols')
-        map(
-          '<leader>ws',
-          builtin.lsp_dynamic_workspace_symbols,
-          '[W]orkspace [S]ymbols'
-        )
-        map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
-        map('<leader>sd', vim.diagnostic.open_float, '[S]how [D]iagnostics')
+        local set = vim.keymap.set
+        set('n', '<leader>sd', vim.diagnostic.open_float)
+        set('n', '<leader>rn', vim.lsp.buf.rename)
+        set('n', '<leader>ca', vim.lsp.buf.code_action)
 
         local settings = servers[client.name] or {}
         if settings.server_capabilities then
@@ -183,7 +165,7 @@ return {
 
     vim.diagnostic.config {
       virtual_text = true,
-      virtual_lines = true,
+      virtual_lines = false,
       severity_sort = true,
     }
   end,

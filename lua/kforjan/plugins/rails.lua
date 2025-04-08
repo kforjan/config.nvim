@@ -7,6 +7,9 @@ return {
     end,
   },
   {
+    'slim-template/vim-slim',
+  },
+  {
     'weizheheng/ror.nvim',
     ft = 'ruby',
     config = function()
