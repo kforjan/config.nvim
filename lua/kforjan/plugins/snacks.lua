@@ -1,11 +1,23 @@
 ---@module "snacks"
 return {
   'folke/snacks.nvim',
+  lazy = false,
+  priority = 1000,
   opts = {
     dashboard = {},
     picker = {},
+    gitbrowse = {},
   },
   keys = {
+    -- Gitbroswse
+    {
+      '<leader>go',
+      function()
+        Snacks.gitbrowse.open()
+      end,
+      desc = 'Open the repo of the active file in the browser',
+    },
+    -- Picker
     {
       '<leader><leader>',
       function()
@@ -16,7 +28,7 @@ return {
     {
       '<leader>ff',
       function()
-        Snacks.picker.files()
+        Snacks.picker.files({ hidden = true })
       end,
       desc = 'Find Files',
     },
