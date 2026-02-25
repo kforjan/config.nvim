@@ -34,3 +34,18 @@ set('n', '<M-t>', '<cmd>silent !tmux neww tmux-sessionizer<CR>')
 
 set('n', '<leader>i', 'i<CR><Esc>ko')
 set('n', 'Q', '<nop>')
+
+set('n', '<leader>z', function()
+  local win_amount = #vim.api.nvim_tabpage_list_wins(0)
+  local tabs = vim.api.nvim_list_tabpages()
+
+  if win_amount > 1 then
+    vim.cmd('tab split')
+  else
+    if #tabs > 1 then
+      vim.cmd('tabc')
+    else
+      print('This is the last tab, cannot close it!')
+    end
+  end
+end, { noremap = true, silent = true })

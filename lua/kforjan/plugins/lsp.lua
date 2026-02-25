@@ -1,3 +1,4 @@
+vim.lsp.enable("ruby-lsp")
 return {
   'neovim/nvim-lspconfig',
   event = { 'BufReadPre', 'BufNewFile' },
@@ -39,14 +40,6 @@ return {
       -- solargraph = {
       --   cmd = { 'gem', 'exec', 'solargraph', 'stdio' },
       -- },
-      ruby_lsp = {
-        root_dir = require('lspconfig').util.root_pattern 'Gemfile',
-        single_file = true,
-        init_options = {
-          formatter = 'auto',
-          experimentalFeatures = true,
-        },
-      },
       ts_ls = {
         root_dir = require('lspconfig').util.root_pattern 'package.json',
         single_file = false,
@@ -76,8 +69,6 @@ return {
         },
       },
     }
-
-    local lspconfig = require 'lspconfig'
 
     vim.api.nvim_create_autocmd('LspAttach', {
       group = vim.api.nvim_create_augroup('lsp-attach', { clear = true }),
@@ -153,7 +144,8 @@ return {
         config = {}
       end
       config.capabilities = require('blink.cmp').get_lsp_capabilities(config.capabilities)
-      lspconfig[name].setup(config)
+      vim.lsp.config(name, config)
+      vim.lsp.enable(name)
     end
 
     vim.diagnostic.config {

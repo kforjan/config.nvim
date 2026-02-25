@@ -4,6 +4,7 @@ return {
     require('mini.ai').setup { n_lines = 500 }
     require('mini.surround').setup()
     require('mini.splitjoin').setup()
+    require('mini.misc').setup()
     require('mini.comment').setup()
     local gen_loader = require('mini.snippets').gen_loader
     require('mini.snippets').setup({
