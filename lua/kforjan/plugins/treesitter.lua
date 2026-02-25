@@ -2,8 +2,8 @@ return {
   'nvim-treesitter/nvim-treesitter',
   dependencies = {
     'RRethy/nvim-treesitter-endwise',
-    event = 'InsertEnter',
   },
+  event = 'InsertEnter',
   build = ':TSUpdate',
   lazy = false,
   opts = {
@@ -25,9 +25,9 @@ return {
     auto_install = true,
     highlight = {
       enable = true,
+      additional_vim_regex_highlighting = { 'ruby', 'markdown' },
     },
-    additional_vim_regex_highlighting = true,
-    indent = { enable = true },
+    indent = { enable = true, disable = { 'ruby' } },
     endwise = { enable = true },
   },
   config = function(_, opts)

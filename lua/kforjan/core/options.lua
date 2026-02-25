@@ -7,6 +7,7 @@ opt.wrap = false
 opt.hlsearch = false
 opt.incsearch = true
 opt.shiftwidth = 4
+opt.tabstop = 4
 opt.expandtab = true
 opt.termguicolors = true
 

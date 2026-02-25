@@ -42,7 +42,7 @@ return {
       -- },
       ts_ls = {
         root_dir = require('lspconfig').util.root_pattern 'package.json',
-        single_file = false,
+        single_file_support = false,
         server_capabilities = {
           documentFormattingProvider = false,
         },
@@ -132,7 +132,7 @@ return {
 
     local servers_to_install = vim.tbl_filter(function(key)
       local t = servers[key]
-      return type(t) == 'table' and not t.manual_install or t
+      return type(t) ~= 'table' or not t.manual_install
     end, vim.tbl_keys(servers))
 
     require('mason-tool-installer').setup {

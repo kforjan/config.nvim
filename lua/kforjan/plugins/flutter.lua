@@ -61,21 +61,17 @@ return {
     })
 
     -- Flutter bloc
-    set(
-      'n',
-      '<Leader>Fbb',
-      "<cmd>lua require('flutter-bloc').create_bloc()<cr>",
-      {
-        desc = 'Create [B]loc ',
-      }
+    set('n', '<Leader>Fbb', "<cmd>lua require('flutter-bloc').create_bloc()<cr>", {
+      noremap = true,
+      silent = true,
+      desc = 'Create [B]loc ',
+    }
     )
-    set(
-      'n',
-      '<Leader>Fbc',
-      "<cmd>lua require('flutter-bloc').create_cubit()<cr>",
-      {
-        desc = 'Create [C]ubit',
-      }
+    set('n', '<Leader>Fbc', "<cmd>lua require('flutter-bloc').create_cubit()<cr>", {
+      noremap = true,
+      silent = true,
+      desc = 'Create [C]ubit',
+    }
     )
   end,
 }
