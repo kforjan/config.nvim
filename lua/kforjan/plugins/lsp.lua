@@ -1,9 +1,9 @@
-vim.lsp.enable("ruby-lsp")
+vim.lsp.enable('ruby-lsp')
 return {
   'neovim/nvim-lspconfig',
   event = { 'BufReadPre', 'BufNewFile' },
   dependencies = {
-    { 'j-hui/fidget.nvim',       opts = {} },
+    { 'j-hui/fidget.nvim', opts = {} },
     { 'williamboman/mason.nvim', opts = {} },
     'williamboman/mason-lspconfig.nvim',
     'WhoIsSethDaniel/mason-tool-installer.nvim',
@@ -37,9 +37,6 @@ return {
       rust_analyzer = {},
       svelte = {},
       templ = {},
-      -- solargraph = {
-      --   cmd = { 'gem', 'exec', 'solargraph', 'stdio' },
-      -- },
       ts_ls = {
         root_dir = require('lspconfig').util.root_pattern 'package.json',
         single_file_support = false,
@@ -83,15 +80,15 @@ return {
         end
 
         if
-            client
-            and client_supports_method(
-              client,
-              vim.lsp.protocol.Methods.textDocument_documentHighlight,
-              args.buf
-            )
+          client
+          and client_supports_method(
+            client,
+            vim.lsp.protocol.Methods.textDocument_documentHighlight,
+            args.buf
+          )
         then
           local highlight_augroup =
-              vim.api.nvim_create_augroup('lsp-highlight', { clear = false })
+            vim.api.nvim_create_augroup('lsp-highlight', { clear = false })
           vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
             buffer = args.buf,
             group = highlight_augroup,
@@ -143,7 +140,10 @@ return {
       if config == true then
         config = {}
       end
-      config.capabilities = require('blink.cmp').get_lsp_capabilities(config.capabilities)
+
+      config.capabilities =
+        require('blink.cmp').get_lsp_capabilities(config.capabilities)
+
       vim.lsp.config(name, config)
       vim.lsp.enable(name)
     end

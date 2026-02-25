@@ -49,3 +49,5 @@ set('n', '<leader>z', function()
     end
   end
 end, { noremap = true, silent = true })
+set('n', '<leader>%', '<cmd>vsplit<CR>')
+set('n', '<leader>"', '<cmd>split<CR>')
