@@ -39,8 +39,14 @@ return {
       tailwindcss = {},
       templ = {},
       ts_ls = {
-        root_dir = require('lspconfig').util.root_pattern 'package.json',
+        root_markers = { 'package.json' },
         single_file_support = false,
+        filetypes = {
+          'javascript',
+          'javascriptreact',
+          'typescript',
+          'typescriptreact',
+        },
         server_capabilities = {
           documentFormattingProvider = false,
         },
