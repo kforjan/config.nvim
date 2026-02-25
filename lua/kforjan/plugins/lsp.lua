@@ -36,6 +36,7 @@ return {
       },
       rust_analyzer = {},
       svelte = {},
+      tailwindcss = {},
       templ = {},
       ts_ls = {
         root_dir = require('lspconfig').util.root_pattern 'package.json',
