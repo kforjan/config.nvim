@@ -8,7 +8,7 @@ return {
   opts = {
     keymap = { preset = 'default' },
     appearance = {
-      nerd_font_variant = 'fira_code',
+      nerd_font_variant = 'normal',
     },
     snippets = { preset = 'mini_snippets' },
     sources = {
