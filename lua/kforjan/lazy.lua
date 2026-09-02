@@ -27,4 +27,5 @@ require('lazy').setup {
   },
   checker = { enabled = true },
   change_detection = { enabled = false },
+  rocks = { enabled = false },
 }

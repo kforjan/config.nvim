@@ -11,7 +11,7 @@ return {
         css = { 'prettierd', 'prettier', stop_after_first = true },
         html = { 'prettierd', 'prettier', stop_after_first = true },
         json = { 'jq' },
-        eruby = { 'erb_format' },
+        eruby = { 'erb_format', 'erb-formatter', stop_after_first = true },
       },
 
     }

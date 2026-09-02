@@ -15,8 +15,6 @@ return {
       watch_for_changes = true,
     }
 
-    local set = vim.keymap.set
-    set('n', '\\', '<CMD>Oil<CR>', { desc = 'Open parent directory' })
-    set('n', '<CMD>Oil<CR>', vim.cmd.Ex)
+    vim.keymap.set('n', '\\', '<CMD>Oil<CR>', { desc = 'Open parent directory' })
   end,
 }

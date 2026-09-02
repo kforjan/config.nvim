@@ -4,8 +4,8 @@ return {
   event = { 'BufReadPre', 'BufNewFile' },
   dependencies = {
     { 'j-hui/fidget.nvim', opts = {} },
-    { 'williamboman/mason.nvim', opts = {} },
-    'williamboman/mason-lspconfig.nvim',
+    { 'mason-org/mason.nvim', opts = {} },
+    { 'mason-org/mason-lspconfig.nvim', opts = { automatic_enable = false } },
     'WhoIsSethDaniel/mason-tool-installer.nvim',
     'b0o/SchemaStore.nvim',
     'saghen/blink.cmp',
@@ -13,6 +13,10 @@ return {
   config = function()
     local servers = {
       bashls = {},
+      denols = {
+        root_markers = { 'deno.json', 'deno.jsonc' },
+        workspace_required = true,
+      },
       gopls = {
         manual_install = true,
         settings = {
@@ -40,7 +44,7 @@ return {
       templ = {},
       ts_ls = {
         root_markers = { 'package.json' },
-        single_file_support = false,
+        workspace_required = true,
         filetypes = {
           'javascript',
           'javascriptreact',
@@ -128,7 +132,11 @@ return {
         local settings = servers[client.name] or {}
         if settings.server_capabilities then
           for k, v in pairs(settings.server_capabilities) do
-            client.server_capabilities[k] = (v == vim.NIL) and nil or v
+            if v == vim.NIL then
+              client.server_capabilities[k] = nil
+            else
+              client.server_capabilities[k] = v
+            end
           end
         end
       end,
@@ -143,9 +151,12 @@ return {
       ensure_installed = servers_to_install,
     }
 
-    for name, config in pairs(servers) do
-      if config == true then
-        config = {}
+    local local_keys = { 'manual_install', 'server_capabilities' }
+
+    for name, settings in pairs(servers) do
+      local config = vim.tbl_extend('force', {}, settings)
+      for _, key in ipairs(local_keys) do
+        config[key] = nil
       end
 
       config.capabilities =

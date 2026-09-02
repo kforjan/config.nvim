@@ -7,7 +7,6 @@ return {
   config = function()
     require('flutter-tools').setup {
       fvm = true,
-      lsp = { enabled = false },
     }
 
     require('flutter-bloc').setup {
@@ -61,17 +60,19 @@ return {
     })
 
     -- Flutter bloc
-    set('n', '<Leader>Fbb', "<cmd>lua require('flutter-bloc').create_bloc()<cr>", {
+    set('n', '<Leader>Fbb', function()
+      require('flutter-bloc').create_bloc()
+    end, {
       noremap = true,
       silent = true,
-      desc = 'Create [B]loc ',
-    }
-    )
-    set('n', '<Leader>Fbc', "<cmd>lua require('flutter-bloc').create_cubit()<cr>", {
+      desc = 'Create [B]loc',
+    })
+    set('n', '<Leader>Fbc', function()
+      require('flutter-bloc').create_cubit()
+    end, {
       noremap = true,
       silent = true,
       desc = 'Create [C]ubit',
-    }
-    )
+    })
   end,
 }
