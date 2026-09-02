@@ -3,12 +3,13 @@ return {
   'tpope/vim-sleuth',
   {
     'eandrju/cellular-automaton.nvim',
-    config = function()
-      vim.keymap.set(
-        'n',
+    cmd = 'CellularAutomaton',
+    keys = {
+      {
         '<leader>flm',
-        '<cmd>CellularAutomaton make_it_rain<CR>'
-      )
-    end,
+        '<cmd>CellularAutomaton make_it_rain<CR>',
+        desc = 'Make it rain',
+      },
+    },
   },
 }

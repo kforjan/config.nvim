@@ -7,6 +7,8 @@ return {
     dashboard = {},
     picker = {},
     gitbrowse = {},
+    bigfile = {},
+    quickfile = {},
   },
   keys = {
     -- Gitbroswse

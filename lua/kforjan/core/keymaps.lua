@@ -29,9 +29,6 @@ set({ 'n', 'v' }, '<leader>P', [["+p]])
 -- delete without affecting the current register
 set({ 'n', 'v' }, '<leader>d', [["_d]])
 
--- start tmux sessionizer (fzf project dirs and create/navigate sessoins)
-set('n', '<M-t>', '<cmd>silent !tmux neww tmux-sessionizer<CR>')
-
 set('n', '<leader>i', 'i<CR><Esc>ko')
 set('n', 'Q', '<nop>')
 

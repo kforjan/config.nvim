@@ -39,3 +39,9 @@ opt.titlestring = 'n%{expand("%:t")}'
 
 opt.cursorline = true
 opt.inccommand = 'split'
+
+opt.confirm = true
+opt.splitkeep = 'screen'
+opt.timeoutlen = 400
+opt.list = true
+opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
