@@ -19,15 +19,11 @@ return {
         italic = true,
         transparency = false,
       },
-      groups = {},
       palette = {
         main = {
           foam = '#9AC2A5',
         },
       },
-      highlight_groups = {},
-
-      before_highlight = function(_, _, _) end,
     })
 
     vim.cmd('colorscheme rose-pine')

@@ -70,13 +70,6 @@ return {
       desc = 'Notification History',
     },
     {
-      '<leader>\\',
-      function()
-        Snacks.explorer()
-      end,
-      desc = 'File Explorer',
-    },
-    {
       '<leader>fa',
       function()
         Snacks.picker.git_files()

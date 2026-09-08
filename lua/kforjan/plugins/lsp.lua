@@ -1,4 +1,3 @@
-vim.lsp.enable('ruby-lsp')
 return {
   'neovim/nvim-lspconfig',
   event = { 'BufReadPre', 'BufNewFile' },
@@ -86,14 +85,8 @@ return {
           'must have valid client'
         )
 
-        local function client_supports_method(lsp_client, method, bufnr)
-          return lsp_client:supports_method(method, bufnr)
-        end
-
         if
-          client
-          and client_supports_method(
-            client,
+          client:supports_method(
             vim.lsp.protocol.Methods.textDocument_documentHighlight,
             args.buf
           )
@@ -128,17 +121,6 @@ return {
         set('n', '<leader>sd', vim.diagnostic.open_float)
         set('n', '<leader>rn', vim.lsp.buf.rename)
         set('n', '<leader>ca', vim.lsp.buf.code_action)
-
-        local settings = servers[client.name] or {}
-        if settings.server_capabilities then
-          for k, v in pairs(settings.server_capabilities) do
-            if v == vim.NIL then
-              client.server_capabilities[k] = nil
-            else
-              client.server_capabilities[k] = v
-            end
-          end
-        end
       end,
     })
 
@@ -162,9 +144,24 @@ return {
       config.capabilities =
         require('blink.cmp').get_lsp_capabilities(config.capabilities)
 
+      local overrides = settings.server_capabilities
+      if overrides then
+        config.on_init = function(client)
+          for k, v in pairs(overrides) do
+            if v == vim.NIL then
+              client.server_capabilities[k] = nil
+            else
+              client.server_capabilities[k] = v
+            end
+          end
+        end
+      end
+
       vim.lsp.config(name, config)
       vim.lsp.enable(name)
     end
+
+    vim.lsp.enable('ruby-lsp')
 
     vim.diagnostic.config {
       virtual_text = true,

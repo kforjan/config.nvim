@@ -8,8 +8,8 @@ g.maplocalleader = ','
 set('n', 'vv', 'v$')
 
 -- move selected lines
-set('v', 'J', ":m '>+1<CR>gv=gv")
-set('v', 'K', ":m '<-2<CR>gv=gv")
+set('x', 'J', ":m '>+1<CR>gv=gv")
+set('x', 'K', ":m '<-2<CR>gv=gv")
 
 -- next line join
 set('n', 'J', 'mzJ`z')
@@ -23,11 +23,11 @@ set('n', 'N', 'Nzzzv')
 -- paste without affecting the current register
 set('x', '<leader>p', [["_dP]])
 -- copy to system clipboard
-set({ 'n', 'v' }, '<leader>y', [["+y]])
+set({ 'n', 'x' }, '<leader>y', [["+y]])
 -- paste from system clipboard
-set({ 'n', 'v' }, '<leader>P', [["+p]])
+set({ 'n', 'x' }, '<leader>P', [["+p]])
 -- delete without affecting the current register
-set({ 'n', 'v' }, '<leader>d', [["_d]])
+set({ 'n', 'x' }, '<leader>d', [["_d]])
 
 set('n', '<leader>i', 'i<CR><Esc>ko')
 set('n', 'Q', '<nop>')
@@ -42,7 +42,7 @@ set('n', '<leader>z', function()
     if #tabs > 1 then
       vim.cmd('tabc')
     else
-      print('This is the last tab, cannot close it!')
+      vim.notify('This is the last tab, cannot close it!', vim.log.levels.WARN)
     end
   end
 end, { noremap = true, silent = true })

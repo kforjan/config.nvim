@@ -24,7 +24,6 @@ opt.showmode = false
 
 opt.swapfile = false
 opt.backup = false
-opt.undodir = os.getenv 'HOME' .. '/.undodir'
 opt.undofile = true
 
 opt.ignorecase = true
@@ -35,7 +34,7 @@ opt.splitbelow = true
 
 opt.title = true
 opt.titlelen = 0
-opt.titlestring = 'n%{expand("%:t")}'
+opt.titlestring = '%{expand("%:t")}'
 
 opt.cursorline = true
 opt.inccommand = 'split'
